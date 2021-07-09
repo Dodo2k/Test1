@@ -1,50 +1,51 @@
 #include<ESP8266WiFi.h>
 #include<ESP8266WebServer.h>
+#include<ESP8266HTTPClient.h>
+#include<WiFiClient.h>
 #include<Arduino.h>
+#include<Arduino_JSON.h>
 
 const char* ssid = "MathrukripaG";
 const char* pass = "MathrukripaG574!48";
+const char* host = "http://192.168.86.46:8080";
+String pa;
+String getpa(const char* host){
+  WiFiClient client;
+  HTTPClient http;
+  http.begin( client , host );
 
-String pa[3000];
-
-ESP8266WebServer server(80);
-
-void varhandler(){
-  Serial.println("Client Handler invoked....");
-  if ( server.hasArg("pa") ){
-    String pa = {server.arg("pa")};
-    server.send( 200, "text/html" , pa );
-    Serial.print("String data recieved\t");
-    Serial.println(pa);
+  int responsecode = http.GET();
+  String payload = "{}";
+  if (responsecode > 0){
+    Serial.print("HTTP Response code: ");
+    Serial.println(responsecode);
+    payload = http.getString();
   }
+  else{
+    Serial.print("Error code: ");
+    Serial.println(responsecode);
+  }
+  http.end();
+  return payload;
 
 }
 
 void setup(){
-
   Serial.begin(115200);
   WiFi.begin(ssid,pass);
-  server.begin();
-
+  Serial.print("Connecting");
   while( WiFi.status() != WL_CONNECTED){
-    delay(500);
-    Serial.println("Waiting to connect.....");
+    delay(350);
+    Serial.print(".");
   }
   
   Serial.print("IP address: ");
   Serial.println(WiFi.localIP());
-
-  server.on("/data/" , HTTP_GET , varhandler );
-// server.on("/data/" , varhandler );
-  server.begin();
-  Serial.println("Server listening.....");
-  //if server recieves a request with /data in the 
-  //string then run 'varhandler()' routine 
-
+  pa = getpa(host);
+  Serial.println(pa);
+  
 }
 
-void loop(){
-  server.handleClient();
+void loop(){  
   
-
 }
