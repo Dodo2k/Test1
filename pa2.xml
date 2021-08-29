@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><UAPermission>
+    <Permission>
+    <Owner operatorID="4e23ed47448c4f009797143805170117">
+        <Pilot id="5ce276f8a6be4d86b661de9fa70c62b0" validTo="NA"/>
+    </Owner>
+    <FlightDetails>
+        <UADetails uinNo="5d765baca320590004e2d11f"/>
+        <FlightPurpose shortDesc="Survey"/>
+        <PayloadDetails payLoadWeightInKg="0.2" payloadDetails="RGB Camera"/>
+        <FlightParameters flightEndTime="2019-09-18T19:15:00" flightStartTime="2019-09-18T16:15:00" maxAltitude="40" recurrenceTimeExpression="" recurrenceTimeExpressionType="CRON_QUARTZ" recurringTimeDurationInMinutes="">
+            <Coordinates>
+                <Coordinate latitude="28.486481108804796" longitude="77.22935914993286"/><Coordinate latitude="28.486351447705033" longitude="77.22932428121567"/><Coordinate latitude="28.48641745701208" longitude="77.22967565059662"/><Coordinate latitude="28.486662634076964" longitude="77.22959518432619"/><Coordinate latitude="28.486481108804796" longitude="77.22935914993286"/>
+            </Coordinates>
+        </FlightParameters>
+    </FlightDetails>
+    </Permission>
+<Signature xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/><DigestValue>CIplJzWWigQ050yF4Os1aLsNOYM=</DigestValue></Reference></SignedInfo><SignatureValue>XGV03uBKZzSWGBXMpPC7QZfXmF3245ntAjaV4kgDaIL5/LfKMIcAcVuwKEexFoozvvK61rjg/29q
+RE4VOum26qiGz/i+DD44IWri4YBjmHl9ZUmDTbR316NaXJXWg8vDemFs26/i9y0AFkwrzz9ggZvb
+5BGMXl+mMUe8y8/i2LEW0B48BYQ6/spGj8BYndjuB9aVe730ByDNSJIhPRPcmBDruHe/s2JyjMJV
+8Eo+pb6YnFlp+br1e1kcsnqPFhSbvx0Mw01BsLlPaPzB+l7f/GlvvE/3ypW/PW8skMrGR3BANzT3
+0kaOkZXZyodHpDfb/0C2TQSk1ONiD5YFxdFLuQ==</SignatureValue>
+<KeyInfo><X509Data><X509SubjectName>1.2.840.113549.1.9.1=#1616636f6e7461637440616c676f706978656c2e74656368,CN=algopixel-idroneport-ds-replica,OU=iDronePort DS Replica,O=Algopixel Technologies Pvt. Ltd.,L=Bengaluru,ST=KA,C=IN</X509SubjectName><X509Certificate>MIIEdzCCA1+gAwIBAgIUNRGVDfGhq8Oxr1JyC1QuDaPMJmswDQYJKoZIhvcNAQEFBQAwgcoxCzAJ
+BgNVBAYTAklOMQswCQYDVQQIDAJLQTESMBAGA1UEBwwJQmVuZ2FsdXJ1MSkwJwYDVQQKDCBBbGdv
+cGl4ZWwgVGVjaG5vbG9naWVzIFB2dC4gTHRkLjEeMBwGA1UECwwVaURyb25lUG9ydCBEUyBSZXBs
+aWNhMSgwJgYDVQQDDB9hbGdvcGl4ZWwtaWRyb25lcG9ydC1kcy1yZXBsaWNhMSUwIwYJKoZIhvcN
+AQkBFhZjb250YWN0QGFsZ29waXhlbC50ZWNoMB4XDTE5MDMxNDA5NDY1NFoXDTIwMDMxMzA5NDY1
+NFowgcoxCzAJBgNVBAYTAklOMQswCQYDVQQIDAJLQTESMBAGA1UEBwwJQmVuZ2FsdXJ1MSkwJwYD
+VQQKDCBBbGdvcGl4ZWwgVGVjaG5vbG9naWVzIFB2dC4gTHRkLjEeMBwGA1UECwwVaURyb25lUG9y
+dCBEUyBSZXBsaWNhMSgwJgYDVQQDDB9hbGdvcGl4ZWwtaWRyb25lcG9ydC1kcy1yZXBsaWNhMSUw
+IwYJKoZIhvcNAQkBFhZjb250YWN0QGFsZ29waXhlbC50ZWNoMIIBIjANBgkqhkiG9w0BAQEFAAOC
+AQ8AMIIBCgKCAQEAt0aHtTg/NPvWwksUY4kYbkatfmliGrUe30C3eDy0GFLpTqHQV+g4wkWovqfu
+3tvd0FMjlRdbPOI6gGBcG9yIA5tTXUcVEDwCi50TuiIAN4QINWzS6I+cvCqIwEZk3Yih64MRjPHo
+Urm4zyr0ihMU/XjDqG7cu2QNY/gBX+LD86qcQRcV+7wq/7OW+aWq1bZFiI9pMraHWhrMvj3kthjD
+T4RbeYNE9JjHIePMmH7hSi67rQLingQ8+ccK7P7bc+Yfj34FBxZIh0m0NPZO/nsgL1ZqqheV+WtY
+9eZs71CZK8hSJXTMEw5EaXaZMF7i5LjJnU09PHVXwoBHZ1FpqQyUZQIDAQABo1MwUTAdBgNVHQ4E
+FgQUAT2SZyZlEFy53FeRG4+vhFa1bsEwHwYDVR0jBBgwFoAUAT2SZyZlEFy53FeRG4+vhFa1bsEw
+DwYDVR0TAQH/BAUwAwEB/zANBgkqhkiG9w0BAQUFAAOCAQEAKRMAJH5Gyo1N2+ZDKuk3RIH+nKdS
+ndD6nJRlAp2F3cW+RrAHPzpQVIgBHWXY95vY4rXG50JqJ+Vq485i/7MNOSCduFEwJK7K5fRTaSm8
+tPUwfowdcr5t4SEwZyYwmq3TZl8LZ+E0AJVHhfjio7Mmg1ruMDiOOy1d9EG9+/9WB3rKHjYL/wXr
+7WXhANz6w7tkxESkMPXjPY8Pxwj9H9wZonn+yOW+jgf1/+WGHqpH7VBsUfD1TEc8ygWX9iQUOD7p
+WtZ/VF1ETY9QzQhZb+1lHQyOLhWg55utmjGrFpbUM24SaiN88deMxd0lOp50tpYR8EbLuPH4LuHW
+xvlgMKbepFw==</X509Certificate></X509Data></KeyInfo></Signature></UAPermission>

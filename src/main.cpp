@@ -9,13 +9,13 @@ const char* ssid = "MathrukripaG";
 const char* pass = "MathrukripaG574!48";
 
 // Change the IP address to that of your local machine
-const char* host = "http://192.168.86.46:8080";   
+const char* host = "http://192.168.86.98:8080";   
 
 // character string pointer to the retrieved Permission Artifact.
 char* pa; 
 // below array contains coordinates of rectangular geofence
 // which is to be fed to the flight controller to detect breach. 
-String geofence_params[4][2] = { {"", ""}, {"", ""}, {"", ""}, {"", ""} };
+String geofence_params[10][2] ;
 // 1st string in below array is digest value.
 // 2nd string in below array is signature value.
 // 3rd string in below array contains DGCA public key.
@@ -29,10 +29,11 @@ String ID_params[3] = { "", "", "" };
 String DateTime_params[4][2] = { { "", "" }, { "", "" } };
 String altitude = "";
 int j=0,k=0;
+int tot;
 
 
 
-// function tp get the permission artifact
+// function to get the permission artifact
 char* getpa(const char* host){
   WiFiClient client;
   HTTPClient http;
@@ -61,6 +62,7 @@ void coordinate_parser( const char* match, const unsigned int length, const Matc
     String cro = cap;
     geofence_params[j][k] = cro;
     j++;
+    
   }
 } 
 
@@ -132,6 +134,7 @@ void setup(){
 
   // stores spatial coordinates into geofence_params
   int count = ms.GlobalMatch("latitude=%p(%-?%d+%.%d+)", coordinate_parser);
+  tot = j;
   k++;
   j=0;
   count = ms.GlobalMatch("longitude=%p(%-?%d+%.%d+)", coordinate_parser);
@@ -162,9 +165,31 @@ void setup(){
 
   // procures atitude
   count = ms.GlobalMatch("maxAltitude=%p(%d+)%p", Alt_parser);
+Serial.println("Geofence coordinates");
+  for(j=0;j<tot;j++){
+    Serial.print(geofence_params[j][0]);
+    Serial.print("\t");
+    Serial.println(geofence_params[j][1]);
+ }
+ Serial.println("\nValidation Parameters: Digest , Signature and Certificate respectively\n");
+  for(j=0;j<3;j++){
+    Serial.print(validation_params[j]);
+    Serial.print("\n\n");
+  }
+ Serial.println("\nIdentfication Parameters:  UAOP, Pilot ID, UIN respectively\n");
+  for(j=0;j<3;j++){
+    Serial.print(ID_params[j]);
+    Serial.print("\t");
+  }
+  Serial.println();
+  Serial.println("time coordinates");
+  for(j=0;j<2;j++){
+    Serial.print(DateTime_params[j][0]);
+    Serial.print("\t");
+    Serial.println(DateTime_params[j][1]);
+}
+  Serial.println();
+  Serial.printf("Max altitude: %sm",altitude);
 }
 
-void loop( ){  
-
-
-}
+void loop( ){  }
