@@ -3,43 +3,35 @@
 #include<WiFiClient.h>
 #include<Arduino.h>
 #include<Regexp.h>
+#include<SoftwareSerial.h>
+
+#include<mavlink.h> 
+#include<params.h>
+#include<mav_extras.h>
 
 // WiFi credentials
-const char* ssid = "MathrukripaG";
-const char* pass = "MathrukripaG574!48";
+const char* ssid = "V";
+const char* pass = "vvvvvvvv";
 
+int check = 0;  // This is set to 1 if everything goes as expected.
+int arv = 0;    // a random variable needed while looping in void loop()
 // Change the IP address to that of your local machine
-const char* host = "http://192.168.86.98:8080";   
+const char* host = "http://192.168.161.254:8080";
+//const char* host = "http://10.145.1.169:8080";   
+
+// reponse code issued by server for http GET request from ESP8266 client.
+int responsecode;
 
 // character string pointer to the retrieved Permission Artifact.
 char* pa; 
-// below array contains coordinates of rectangular geofence
-// which is to be fed to the flight controller to detect breach. 
-String geofence_params[10][2] ;
-// 1st string in below array is digest value.
-// 2nd string in below array is signature value.
-// 3rd string in below array contains DGCA public key.
-String validation_params[3] = { "", "", "" };
-// below array contains identification of the RPAS and operator.
-// 1st string in below array is operatorID.
-// 2nd string in below array is Pilot ID.
-// 3rd string in below array contains UIN number.
-String ID_params[3] = { "", "", "" };
-// below array contains date and time frame.
-String DateTime_params[4][2] = { { "", "" }, { "", "" } };
-String altitude = "";
-int j=0,k=0;
-int tot;
-
-
 
 // function to get the permission artifact
-char* getpa(const char* host){
+char* GetPA(const char* host){
   WiFiClient client;
   HTTPClient http;
   http.begin( client , host );
 
-  int responsecode = http.GET();
+  responsecode = http.GET();
   String payload = "{}";
   if (responsecode > 0){
     Serial.print("HTTP Response code: ");
@@ -49,88 +41,15 @@ char* getpa(const char* host){
   else{
     Serial.print("Error code: ");
     Serial.println(responsecode);
-  }
+    Serial.println("Please try again.");
+      }
   http.end();
   return &payload[0];
 }
 
-// function to parse geofence coordinates from the obtained PA string.
-void coordinate_parser( const char* match, const unsigned int length, const MatchState & ms ){
-  char cap[3000];
-  for (byte i=0; i < ms.level; i++ ){
-    ms.GetCapture ( cap , i );
-    String cro = cap;
-    geofence_params[j][k] = cro;
-    j++;
-    
-  }
-} 
-
-// function to parse the time specifications.
-void time_parser( const char* match, const unsigned int length, const MatchState & ms ){
-char cap[3000];
-  for (byte i=0; i < ms.level; i++ ){
-    ms.GetCapture ( cap , i );
-    String cro = cap;
-    Serial.println(cap);
-  }
-}
-
-// function to parse the digest value, signature value and public key.
-void value_parser( const char* match, const unsigned int length, const MatchState & ms ){
-  char cap[3000];
-  for (byte i=0; i < ms.level; i++ ){
-    ms.GetCapture ( cap , i );
-    String cro = cap;
-    validation_params[j] = cro;
-  }
-}
-
-// function to parse the drone, pilot and operator credentials. 
-void ID_parser( const char* match, const unsigned int length, const MatchState & ms ){
-  char cap[3000];
-  for (byte i=0; i < ms.level; i++ ){
-    ms.GetCapture ( cap , i );
-    String cro = cap;
-    ID_params[j] = cro;
-  }
-}
-
-// function to parse the date and time. 
-void DateTime_parser( const char* match, const unsigned int length, const MatchState & ms ){
-  char cap[3000];
-  for (byte i=0; i < ms.level; i++ ){
-    ms.GetCapture ( cap , i );
-    String cro = cap;
-    DateTime_params[j][k] = cro;
-    j++;
-  }
-}
-
-// function to parse the altiutude limit.
-void Alt_parser( const char* match, const unsigned int length, const MatchState & ms ){
-  char cap[3000];
-  for (byte i=0; i < ms.level; i++ ){
-    ms.GetCapture ( cap , i );
-    String cro = cap;
-    altitude = cro;
- }
-}
-
-void setup(){
-  Serial.begin(115200);
-  WiFi.begin(ssid,pass);
-  Serial.println("Connecting");
-  while( WiFi.status() != WL_CONNECTED){
-    delay(350);
-    Serial.print(".");  }
-  Serial.println();
-  Serial.print("IP address: ");
-  Serial.println(WiFi.localIP());
-
-  pa = getpa(host);
-
-  MatchState ms (pa);  // Regex state matching object
+// Function to match string patterns in the PA, parse them using parser functions and store them in respective variables.
+int PatternMatcher(){
+  MatchState ms (pa);  // Regex state matching objects
 
   // stores spatial coordinates into geofence_params
   int count = ms.GlobalMatch("latitude=%p(%-?%d+%.%d+)", coordinate_parser);
@@ -165,31 +84,53 @@ void setup(){
 
   // procures atitude
   count = ms.GlobalMatch("maxAltitude=%p(%d+)%p", Alt_parser);
-Serial.println("Geofence coordinates");
-  for(j=0;j<tot;j++){
-    Serial.print(geofence_params[j][0]);
-    Serial.print("\t");
-    Serial.println(geofence_params[j][1]);
- }
- Serial.println("\nValidation Parameters: Digest , Signature and Certificate respectively\n");
-  for(j=0;j<3;j++){
-    Serial.print(validation_params[j]);
-    Serial.print("\n\n");
-  }
- Serial.println("\nIdentfication Parameters:  UAOP, Pilot ID, UIN respectively\n");
-  for(j=0;j<3;j++){
-    Serial.print(ID_params[j]);
-    Serial.print("\t");
-  }
-  Serial.println();
-  Serial.println("time coordinates");
-  for(j=0;j<2;j++){
-    Serial.print(DateTime_params[j][0]);
-    Serial.print("\t");
-    Serial.println(DateTime_params[j][1]);
-}
-  Serial.println();
-  Serial.printf("Max altitude: %sm",altitude);
+
+  return 1; // return 1 after successfully parsing the document
 }
 
-void loop( ){  }
+// Setup function.
+void setup(){
+
+  Serial.begin(115200);
+  MavSerial.begin(115200); 
+
+  WiFi.begin(ssid,pass);
+  Serial.println("Connecting");
+  while( WiFi.status() != WL_CONNECTED){
+    delay(350);
+    Serial.print(".");  }
+  Serial.println();
+  Serial.print("IP address: ");
+  Serial.println(WiFi.localIP());
+
+  pa = GetPA(host); // 
+  int i = PatternMatcher();
+
+  if( (i==1) && (responsecode == 200) ){
+    ParamPrint();
+
+    // To check if ID paramaters in PA matches IDs of drone to be flown, drone pilot and Operator respectively.
+    if (IdCheck() == 1){
+      Serial.println("XML document verified sending ARM command.");
+      Serial.println();
+      i=0;
+      //while(i<1000) { MavArm(1); delay(5); i++; }
+      //MavReceive();
+      Serial.println("Sent Arming command and received arming ACK");
+      check = 1;
+    }
+    else
+      Serial.println("ID credential mismatch.");
+  }
+
+}
+
+void loop( ){ 
+
+  if(check==1 && arv<500){
+    MavArm(1);
+    arv++;
+    delay(10);
+  }
+
+ }
